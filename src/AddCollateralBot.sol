@@ -39,4 +39,29 @@ contract AddCollateralBot {
 
         ICreditFacadeV3(facade).botMulticall(_creditAccount, calls);
     }
+
+    /// @notice Withdraw collateral using bot
+    /// @param _token token address
+    /// @param _manager manager address
+    /// @param _tokenAmount amount of token
+    /// @param _creditAccount address of credit account
+    /// @param _owner address of credit account's owner
+    function withdrawCollateral(
+        address _token,
+        address _manager,
+        uint256 _tokenAmount,
+        address _creditAccount,
+        address _owner
+    ) external {
+        MultiCall[] memory calls = new MultiCall[](1);
+
+        address facade = ICreditManagerV3(_manager).creditFacade();
+
+        calls[0] = MultiCall({
+            target: facade,
+            callData: abi.encodeCall(ICreditFacadeV3Multicall.withdrawCollateral, (_token, _tokenAmount, _owner))
+        });
+
+        ICreditFacadeV3(facade).botMulticall(_creditAccount, calls);
+    }
 }
