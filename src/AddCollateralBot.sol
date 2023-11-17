@@ -14,23 +14,23 @@ import {ICreditFacadeV3Multicall} from "@gearbox-protocol/core-v3/contracts/inte
 contract AddCollateralBot {
     /// @notice Adds collateral using bot
     /// @param _token token address
-    /// @param _manager manager address
+    /// @param _creditManager manager address
     /// @param _tokenAmount amount of token
     /// @param _creditAccount address of credit account
-    /// @param _owner address of credit account's owner
+    /// @param _ownerOfCreditAccount address of credit account's owner
     function addCollateral(
         address _token,
-        address _manager,
+        address _creditManager,
         uint256 _tokenAmount,
         address _creditAccount,
-        address _owner
+        address _ownerOfCreditAccount
     ) external {
-        IERC20(_token).transferFrom(_owner, address(this), _tokenAmount);
-        IERC20(_token).approve(_manager, _tokenAmount);
+        IERC20(_token).transferFrom(_ownerOfCreditAccount, address(this), _tokenAmount);
+        IERC20(_token).approve(_creditManager, _tokenAmount);
 
         MultiCall[] memory calls = new MultiCall[](1);
 
-        address facade = ICreditManagerV3(_manager).creditFacade();
+        address facade = ICreditManagerV3(_creditManager).creditFacade();
 
         calls[0] = MultiCall({
             target: facade,
@@ -42,25 +42,74 @@ contract AddCollateralBot {
 
     /// @notice Withdraw collateral using bot
     /// @param _token token address
-    /// @param _manager manager address
+    /// @param _creditManager manager address
     /// @param _tokenAmount amount of token
     /// @param _creditAccount address of credit account
-    /// @param _owner address of credit account's owner
+    /// @param _ownerOfCreditAccount address of credit account's owner
     function withdrawCollateral(
         address _token,
-        address _manager,
+        address _creditManager,
         uint256 _tokenAmount,
         address _creditAccount,
-        address _owner
+        address _ownerOfCreditAccount
     ) external {
         MultiCall[] memory calls = new MultiCall[](1);
 
-        address facade = ICreditManagerV3(_manager).creditFacade();
+        address facade = ICreditManagerV3(_creditManager).creditFacade();
 
         calls[0] = MultiCall({
             target: facade,
-            callData: abi.encodeCall(ICreditFacadeV3Multicall.withdrawCollateral, (_token, _tokenAmount, _owner))
+            callData: abi.encodeCall(
+                ICreditFacadeV3Multicall.withdrawCollateral, (_token, _tokenAmount, _ownerOfCreditAccount)
+                )
         });
+
+        ICreditFacadeV3(facade).botMulticall(_creditAccount, calls);
+    }
+
+    /// @notice Borrow funds using bot
+    /// @param _creditManager manager address
+    /// @param _tokenAmount amount of token
+    /// @param _creditAccount address of credit account
+    function borrowFunds(address _creditManager, uint256 _tokenAmount, address _creditAccount) external {
+        MultiCall[] memory calls = new MultiCall[](1);
+
+        address facade = ICreditManagerV3(_creditManager).creditFacade();
+
+        calls[0] =
+            MultiCall({target: facade, callData: abi.encodeCall(ICreditFacadeV3Multicall.increaseDebt, (_tokenAmount))});
+
+        ICreditFacadeV3(facade).botMulticall(_creditAccount, calls);
+    }
+
+    /// @notice Repay funds using bot
+    /// @param _creditManager manager address
+    /// @param _tokenAmount amount of token
+    /// @param _creditAccount address of credit account
+    function repayFunds(address _creditManager, uint256 _tokenAmount, address _creditAccount) external {
+        MultiCall[] memory calls = new MultiCall[](1);
+
+        address facade = ICreditManagerV3(_creditManager).creditFacade();
+
+        calls[0] =
+            MultiCall({target: facade, callData: abi.encodeCall(ICreditFacadeV3Multicall.decreaseDebt, (_tokenAmount))});
+
+        ICreditFacadeV3(facade).botMulticall(_creditAccount, calls);
+    }
+
+    /// @notice Execute
+    /// @param _creditManager manager address
+    /// @param _creditAccount address of credit account
+    /// @param _target target address to call
+    /// @param _calldata calldata to send in muticall
+    function execute(address _creditManager, address _creditAccount, address _target, bytes calldata _calldata)
+        external
+    {
+        MultiCall[] memory calls = new MultiCall[](1);
+
+        address facade = ICreditManagerV3(_creditManager).creditFacade();
+
+        calls[0] = MultiCall({target: _target, callData: _calldata});
 
         ICreditFacadeV3(facade).botMulticall(_creditAccount, calls);
     }
