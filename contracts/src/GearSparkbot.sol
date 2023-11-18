@@ -13,7 +13,7 @@ import {IPool as ISparkPool} from "@spark/ISparkPool.sol";
 // import "forge-std/console.sol";
 import "@1inch/interfaces/IAggregationRouterV5.sol";
 
-contract GearSparkBot {
+contract GearSparkbot {
     ISparkPool private sparkPool;
     IAggregationRouterV5 private oneinchRouter;
 

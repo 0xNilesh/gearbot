@@ -4,7 +4,7 @@ pragma solidity ^0.8.10;
 import {Test} from "@forge-std/Test.sol";
 import "forge-std/console.sol";
 
-import {GearSparkBot} from "../src/GearSparkBot.sol";
+import {GearSparkbot} from "../src/GearSparkbot.sol";
 import {IERC20} from "@openzeppelin/contracts/interfaces/IERC20.sol";
 import {MultiCall} from "@gearbox-protocol/core-v2/contracts/libraries/MultiCall.sol";
 
@@ -18,8 +18,8 @@ import "@gearbox-protocol/core-v3/contracts/interfaces/IAddressProviderV3.sol";
 import "@gearbox-protocol/core-v3/contracts/interfaces/ICreditFacadeV3Multicall.sol";
 import {IBotListV3} from "@gearbox-protocol/core-v3/contracts/interfaces/IBotListV3.sol";
 
-contract GearSparkBotTest is Test {
-    GearSparkBot private bot;
+contract GearSparkbotTest is Test {
+    GearSparkbot private bot;
     CreditManagerV3 private manager;
     CreditFacadeV3 private facade;
 
@@ -46,7 +46,7 @@ contract GearSparkBotTest is Test {
     /// ----- ///
 
     function setUp() public {
-        bot = new GearSparkBot(SPARKLEND, ONEINCHROUTERV5);
+        bot = new GearSparkbot(SPARKLEND, ONEINCHROUTERV5);
     }
 
     function test_addCollaterals() public {
