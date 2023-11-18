@@ -10,7 +10,7 @@ import {ICreditManagerV3} from "@gearbox-protocol/core-v3/contracts/interfaces/I
 import {ICreditFacadeV3} from "@gearbox-protocol/core-v3/contracts/interfaces/ICreditFacadeV3.sol";
 import {ICreditFacadeV3Multicall} from "@gearbox-protocol/core-v3/contracts/interfaces/ICreditFacadeV3Multicall.sol";
 import {IPool as ISparkPool} from "@spark/ISparkPool.sol";
-import "forge-std/console.sol";
+// import "forge-std/console.sol";
 import "@1inch/interfaces/IAggregationRouterV5.sol";
 
 contract GearSparkBot {
@@ -39,7 +39,7 @@ contract GearSparkBot {
         );
         uint16 referralCode = 0;
 
-        console.log(_creditManager);
+        // console.log(_creditManager);
 
         sparkPool.flashLoanSimple(
             receiverAddress,
@@ -61,10 +61,10 @@ contract GearSparkBot {
         bytes calldata params
     ) external returns (bool) {
         //Logic goes here
-        console.log("hlo");
+        // console.log("hlo");
 
         uint256 totalAmount = amount + premium;
-        console.log(IERC20(asset).balanceOf(address(this)));
+        // console.log(IERC20(asset).balanceOf(address(this)));
         // console.log(asset);
         // console.log(amount);
         // console.log(premium);
@@ -145,14 +145,14 @@ contract GearSparkBot {
             _creditAccount,
             _ownerOfCreditAccount
         );
-        console.log("added");
+        // console.log("added");
 
         address facade = ICreditManagerV3(_creditManager).creditFacade();
         (uint128 minDebt, uint128 maxDebt) = ICreditFacadeV3(facade)
             .debtLimits();
 
         borrowFunds(_creditManager, 1e18, _creditAccount);
-        console.log("borrowed");
+        // console.log("borrowed");
 
         // withdrawCollateral(0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2, _creditManager, 1e20, _creditAccount, address(this));
 
@@ -185,7 +185,7 @@ contract GearSparkBot {
 
         address facade = ICreditManagerV3(_creditManager).creditFacade();
 
-        console.log(facade);
+        // console.log(facade);
 
         calls[0] = MultiCall({
             target: facade,
