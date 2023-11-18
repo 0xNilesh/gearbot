@@ -1,0 +1,2 @@
+Saving last configuration file to .certora_internal/23_11_19_00_11_55_775/run.conf
+Default package file package.json not found, external contract dependencies could be unresolved. Ignore if solc invocation was successful
