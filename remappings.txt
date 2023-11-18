@@ -1,0 +1,7 @@
+@ds-test/=contracts/lib/forge-std/lib/ds-test/src/
+@forge-std/=contracts/lib/forge-std/src/
+@gearbox-protocol/=contracts/lib/gearbox-protocol/
+@openzeppelin/=contracts/lib/openzeppelin-contracts/
+@1inch/=contracts/lib/1inch/
+@aave/=contracts/lib/aave-v3-core
+@spark/=contracts/lib/spark
