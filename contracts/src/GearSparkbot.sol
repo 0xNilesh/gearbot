@@ -78,36 +78,50 @@ contract GearSparkBot {
         return true;
     }
 
-    function _swap1inch(
-        address executor,
-        IAggregationRouterV5.SwapDescription memory desc,
-        bytes memory permit,
-        bytes memory data
+    function _oneInchSwap(
+        bytes calldata _data,
+        uint _ethAmt,
+        uint256 _tokenAmount,
+        address _token
     ) internal {
-        oneinchRouter.swap(executor, desc, permit, data);
+        IERC20(_token).approve(address(oneinchRouter), _tokenAmount);
+
+        (bool success, bytes memory returnData) = address(oneinchRouter).call{
+            value: _ethAmt
+        }(_data);
+        require(success, "1inch-swap-failed");
     }
 
-    function _clipperSwap(
-        address _clipperExchange,
-        address _srcToken,
-        address _dstToken,
-        uint256 _inputAmount,
-        uint256 _outputAmount,
-        uint256 _goodUntil,
-        bytes32 _r,
-        bytes32 _vs
-    ) internal {
-        oneinchRouter.clipperSwap(
-            _clipperExchange,
-            _srcToken,
-            _dstToken,
-            _inputAmount,
-            _outputAmount,
-            _goodUntil,
-            _r,
-            _vs
-        );
-    }
+    // function _swap1inch(
+    //     address executor,
+    //     IAggregationRouterV5.SwapDescription memory desc,
+    //     bytes memory permit,
+    //     bytes memory data
+    // ) internal {
+    //     oneinchRouter.swap(executor, desc, permit, data);
+    // }
+
+    // function _clipperSwap(
+    //     address _clipperExchange,
+    //     address _srcToken,
+    //     address _dstToken,
+    //     uint256 _inputAmount,
+    //     uint256 _outputAmount,
+    //     uint256 _goodUntil,
+    //     bytes32 _r,
+    //     bytes32 _vs
+    // ) internal {
+    //     oneinchRouter.clipperSwap(
+    //         _clipperExchange,
+    //         _srcToken,
+    //         _dstToken,
+    //         _inputAmount,
+    //         _outputAmount,
+    //         _goodUntil,
+    //         _r,
+    //         _vs
+    //     );
+    // }
 
     function _executeStrategy(
         bytes calldata params,
@@ -120,11 +134,11 @@ contract GearSparkBot {
             address _ownerOfCreditAccount
         ) = _decode(params);
 
-        enableTokens(
-            _creditManager,
-            0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48,
-            _creditAccount
-        );
+        // enableTokens(
+        //     _creditManager,
+        //     0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48,
+        //     _creditAccount
+        // );
 
         addCollateral(
             _token,
