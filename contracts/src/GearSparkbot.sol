@@ -9,8 +9,6 @@ import {MultiCall} from "@gearbox-protocol/core-v2/contracts/libraries/MultiCall
 import {ICreditManagerV3} from "@gearbox-protocol/core-v3/contracts/interfaces/ICreditManagerV3.sol";
 import {ICreditFacadeV3} from "@gearbox-protocol/core-v3/contracts/interfaces/ICreditFacadeV3.sol";
 import {ICreditFacadeV3Multicall} from "@gearbox-protocol/core-v3/contracts/interfaces/ICreditFacadeV3Multicall.sol";
-import "@aave/contracts/flashloan/base/FlashLoanSimpleReceiverBase.sol";
-import "@aave/contracts/interfaces/IPoolAddressesProvider.sol";
 import {IPool as ISparkPool} from "@spark/ISparkPool.sol";
 import "forge-std/console.sol";
 import "@1inch/interfaces/IAggregationRouterV5.sol";
