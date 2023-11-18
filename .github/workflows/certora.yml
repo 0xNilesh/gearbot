@@ -39,7 +39,6 @@ jobs:
           wget https://github.com/ethereum/solidity/releases/download/v0.8.20/solc-static-linux
           sudo mv solc-static-linux /usr/local/bin/solc8.20
           chmod +x /usr/local/bin/solc8.20
-          ln -s /usr/local/bin/solc8.0 /usr/local/bin/solc8.20
 
       # Do the actual verification.  The `run` field could be simply
       #
