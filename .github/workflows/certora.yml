@@ -98,4 +98,4 @@ jobs:
           #- {name: transferSpec,                 command: 'ERC20.conf --rule transferSpec'}
           #- {name: generalRulesOnERC20, command: 'generalRules_ERC20.conf --debug'}
           #- {name: generalRulesOnVAULT, command: 'generalRules_VAULT.conf --debug'}
-          - {name: RulesForERC20, command: 'default.conf --debug'}
+          - {name: GearSparkbot, command: 'default.conf --debug'}
