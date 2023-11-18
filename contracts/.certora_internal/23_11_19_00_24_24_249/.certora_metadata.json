@@ -1,0 +1,25 @@
+{
+    "CLI_version": "5.0.5",
+    "branch": "flashloan-spark",
+    "conf": {
+        "files": [
+            "src/GearSparkbot.sol"
+        ],
+        "process": "emv",
+        "solc": "solcjs",
+        "verify": "GearSparkbot:certora/spec/GearSparkbot.spec"
+    },
+    "cwd_relative": "contracts",
+    "dirty": true,
+    "origin": "https://github.com/0xNilesh/gearbot",
+    "raw_args": [
+        "/opt/homebrew/bin/certoraRun",
+        "src/GearSparkbot.sol",
+        "--verify",
+        "GearSparkbot:certora/spec/GearSparkbot.spec",
+        "--solc",
+        "solcjs"
+    ],
+    "revision": "a2eeaefa8dfb1c2f85cf73daff357f7a086fb4c7",
+    "timestamp": "1700313865.169387"
+}

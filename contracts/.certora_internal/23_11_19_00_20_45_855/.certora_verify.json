@@ -1,0 +1,8 @@
+{
+    "importFilesToOrigRelpaths": {},
+    "primary_contract": "GearSparkbot",
+    "specfile": "/Users/nileshgupta/Desktop/Algorand/gearbot/contracts/certora/spec/GearSparkbot.spec",
+    "specfileOrigRelpath": "certora/spec/GearSparkbot.spec",
+    "specfilesToImportDecls": {},
+    "type": "spec"
+}

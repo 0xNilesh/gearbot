@@ -1,0 +1,15 @@
+Saving last configuration file to .certora_internal/23_11_19_00_31_33_461/run.conf
+Default package file package.json not found, external contract dependencies could be unresolved. Ignore if solc invocation was successful
+There is no TAC file. Going to script EVMVerifier/certoraBuild.py to main_with_args()
+Creating dir /Users/nileshgupta/Desktop/Algorand/gearbot/contracts/.certora_internal/23_11_19_00_31_33_461/.certora_config
+In /Users/nileshgupta/Desktop/Algorand/gearbot/contracts/certora/spec/GearSparkbot.spec, found the imports: []
+copying spec file /Users/nileshgupta/Desktop/Algorand/gearbot/contracts/certora/spec/GearSparkbot.spec to /Users/nileshgupta/Desktop/Algorand/gearbot/contracts/.certora_internal/23_11_19_00_31_33_461/.certora_sources/.0_GearSparkbot.spec.spec
+writing /Users/nileshgupta/Desktop/Algorand/gearbot/contracts/.certora_internal/23_11_19_00_31_33_461/.certora_verify.json
+
+building file src/GearSparkbot.sol
+Running cmd /Users/nileshgupta/.nvm/versions/node/v18.17.0/bin/solcjs -o "/Users/nileshgupta/Desktop/Algorand/gearbot/contracts/.certora_internal/23_11_19_00_31_33_461/.certora_config/GearSparkbot.sol_0/" --overwrite --allow-paths "/Users/nileshgupta/Desktop/Algorand/gearbot/contracts","lib/1inch","lib/aave-v3-core","lib/forge-std/lib/ds-test/src","lib/forge-std/src","lib/gearbox-protocol","lib/openzeppelin-contracts","lib/spark",. --standard-json
+stdout, stderr = /Users/nileshgupta/Desktop/Algorand/gearbot/contracts/.certora_internal/23_11_19_00_31_33_461/.certora_config/GearSparkbot.sol_0.standard.json.stdout, /Users/nileshgupta/Desktop/Algorand/gearbot/contracts/.certora_internal/23_11_19_00_31_33_461/.certora_config/GearSparkbot.sol_0.standard.json.stderr
+build failed
+Failure traceback: 
+Exception: Failed to run /Users/nileshgupta/.nvm/versions/node/v18.17.0/bin/solcjs -o "/Users/nileshgupta/Desktop/Algorand/gearbot/contracts/.certora_internal/23_11_19_00_31_33_461/.certora_config/GearSparkbot.sol_0/" --overwrite --allow-paths "/Users/nileshgupta/Desktop/Algorand/gearbot/contracts","lib/1inch","lib/aave-v3-core","lib/forge-std/lib/ds-test/src","lib/forge-std/src","lib/gearbox-protocol","lib/openzeppelin-contracts","lib/spark",. --standard-json, exit code 1
+Encountered an error running Certora Prover, please contact Certora; consider running the script again with --debug to find out why it failed
