@@ -26,6 +26,8 @@ contract GearSparkBotTest is Test {
     address private constant CREDIT_MANAGER = 0x6A489b262A02549c59579811Aa304BF995dbb304; // WETH credit manager
     address private constant CREDIT_FACADE = 0x09a080B42909d12CbDc0c0BB2540FeD129CeaeFB;
     address private constant CONFIGURATOR = 0xa133C9A92Fb8dDB962Af1cbae58b2723A0bdf23b;
+    address private constant SPARKLEND = 0xC13e21B648A5Ee794902342038FF3aDAB66BE987;
+    address private constant ONEINCHROUTERV5 = 0x1111111254EEB25477B68fb85Ed929f73A960582;
 
     address private constant WETH = 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2;
     address private constant DAI = 0x6B175474E89094C44Da98b954EedeAC495271d0F;
@@ -44,7 +46,7 @@ contract GearSparkBotTest is Test {
     /// ----- ///
 
     function setUp() public {
-        bot = new GearSparkBot(0xC13e21B648A5Ee794902342038FF3aDAB66BE987);
+        bot = new GearSparkBot(SPARKLEND, ONEINCHROUTERV5);
     }
 
     function test_addCollaterals() public {
@@ -69,7 +71,7 @@ contract GearSparkBotTest is Test {
 
     function test_flashLoan() public {
         test_addCollaterals();
-        bot.executeTrade(WETH, 1e20, CREDIT_MANAGER, creditAccount, USER);
+        bot.executeTrade(USDC, 9e10, CREDIT_MANAGER, creditAccount, USER);
 
         console.log(IERC20(WETH).balanceOf(address(bot)));
     }

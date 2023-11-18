@@ -13,12 +13,15 @@ import "@aave/contracts/flashloan/base/FlashLoanSimpleReceiverBase.sol";
 import "@aave/contracts/interfaces/IPoolAddressesProvider.sol";
 import {IPool as ISparkPool} from "@spark/ISparkPool.sol";
 import "forge-std/console.sol";
+import "@1inch/interfaces/IAggregationRouterV5.sol";
 
 contract GearSparkBot {
     ISparkPool private sparkPool;
+    IAggregationRouterV5 private oneinchRouter;
 
-    constructor(address _sparkPool) {
+    constructor(address _sparkPool, address _1inchRouter) {
         sparkPool = ISparkPool(_sparkPool);
+        oneinchRouter = IAggregationRouterV5(_1inchRouter);
     }
 
     function executeTrade(
@@ -31,7 +34,11 @@ contract GearSparkBot {
         address receiverAddress = address(this);
         address asset = _token;
         uint256 amount = _amount;
-        bytes memory params = _encode(_creditManager, _creditAccount, _ownerOfCreditAccount);
+        bytes memory params = _encode(
+            _creditManager,
+            _creditAccount,
+            _ownerOfCreditAccount
+        );
         uint16 referralCode = 0;
 
         console.log(_creditManager);
@@ -56,9 +63,10 @@ contract GearSparkBot {
         bytes calldata params
     ) external returns (bool) {
         //Logic goes here
+        console.log("hlo");
 
         uint256 totalAmount = amount + premium;
-        // console.log(IERC20(asset).balanceOf(address(this)));
+        console.log(IERC20(asset).balanceOf(address(this)));
         // console.log(asset);
         // console.log(amount);
         // console.log(premium);
@@ -70,19 +78,71 @@ contract GearSparkBot {
         return true;
     }
 
-    function _executeStrategy(bytes calldata params, address _token, uint256 _amount) internal {
-        (address _creditManager, address _creditAccount, address _ownerOfCreditAccount) = _decode(params);
+    function _swap1inch(
+        address executor,
+        IAggregationRouterV5.SwapDescription memory desc,
+        bytes memory permit,
+        bytes memory data
+    ) internal {
+        oneinchRouter.swap(executor, desc, permit, data);
+    }
 
-        addCollateral(_token, _creditManager, _amount, _creditAccount, _ownerOfCreditAccount);
+    function _clipperSwap(
+        address _clipperExchange,
+        address _srcToken,
+        address _dstToken,
+        uint256 _inputAmount,
+        uint256 _outputAmount,
+        uint256 _goodUntil,
+        bytes32 _r,
+        bytes32 _vs
+    ) internal {
+        oneinchRouter.clipperSwap(
+            _clipperExchange,
+            _srcToken,
+            _dstToken,
+            _inputAmount,
+            _outputAmount,
+            _goodUntil,
+            _r,
+            _vs
+        );
+    }
+
+    function _executeStrategy(
+        bytes calldata params,
+        address _token,
+        uint256 _amount
+    ) internal {
+        (
+            address _creditManager,
+            address _creditAccount,
+            address _ownerOfCreditAccount
+        ) = _decode(params);
+
+        enableTokens(
+            _creditManager,
+            0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48,
+            _creditAccount
+        );
+
+        addCollateral(
+            _token,
+            _creditManager,
+            _amount,
+            _creditAccount,
+            _ownerOfCreditAccount
+        );
+        console.log("added");
 
         address facade = ICreditManagerV3(_creditManager).creditFacade();
-        (uint128 minDebt, uint128 maxDebt) = ICreditFacadeV3(facade).debtLimits();
+        (uint128 minDebt, uint128 maxDebt) = ICreditFacadeV3(facade)
+            .debtLimits();
 
-        enableTokens(_creditManager, 0x6B175474E89094C44Da98b954EedeAC495271d0F, _creditAccount);
+        borrowFunds(_creditManager, 1e18, _creditAccount);
+        console.log("borrowed");
 
-        borrowFunds(_creditManager, 1e21, _creditAccount);
-
-        withdrawCollateral(_token, _creditManager, _amount, _creditAccount, address(this));
+        // withdrawCollateral(0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2, _creditManager, 1e20, _creditAccount, address(this));
 
         // addCollateral(_token, _creditManager, 1e21, _creditAccount, _ownerOfCreditAccount);
 
