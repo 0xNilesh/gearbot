@@ -3,3 +3,5 @@
 @gearbox-protocol/=lib/gearbox-protocol/
 @openzeppelin/=lib/openzeppelin-contracts/
 @1inch/=lib/1inch/
+@aave/=lib/aave-v3-core
+@spark/=lib/spark
